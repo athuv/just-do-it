@@ -1,14 +1,14 @@
 import { format } from 'date-fns';
 
-export default class project {
+export default class Project {
   static #instance;
   static #projects = [];
 
   constructor() {
-    if(project.#instance){
-      return project.#instance;
+    if(Project.#instance){
+      return Project.#instance;
     }
-    project.#instance = this;
+    Project.#instance = this;
   }
 
   #generatePrimaryKey() {
@@ -18,7 +18,7 @@ export default class project {
   }
 
   getProject() {
-    return project.#projects;
+    return Project.#projects;
   }
 
   createProject(projectName) {
@@ -27,11 +27,11 @@ export default class project {
       name: projectName,
       createdAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
     };
-    return project.#projects.push(newProject);
+    return Project.#projects.push(newProject);
   }
 
   renameProject(projectId, newProjectName) {
-    const projectResult = project.#projects.find(project => project.id === projectId);
+    const projectResult = Project.#projects.find(project => project.id === projectId);
     if(projectResult){
       projectResult.name = newProjectName;
       projectResult.createdAt = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -42,9 +42,9 @@ export default class project {
   }
 
   deleteProject(projectId) {
-    const projectsArrayindex = project.#projects.findIndex(item => item.id === projectId);
+    const projectsArrayindex = Project.#projects.findIndex(item => item.id === projectId);
     if (projectsArrayindex !== -1) {
-      project.#projects.splice(projectsArrayindex, 1);
+      Project.#projects.splice(projectsArrayindex, 1);
       return true;
     }
     
