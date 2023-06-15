@@ -16,10 +16,11 @@ export default class Task {
     return Task.#tasks;
   }
 
-  createTask(taskName, taskDescription, taskDueDate, taskPriority) {
+  createTask(taskName, projectId, taskDescription, taskDueDate, taskPriority) {
     const newTask = {
-      id: parseInt(generatePrimaryKey()),
+      id: parseInt(generatePrimaryKey()),      
       name: taskName,
+      projectId: projectId,
       description: taskDescription,
       dueDate: taskDueDate,
       priority: taskPriority,
@@ -28,10 +29,10 @@ export default class Task {
     return Task.#tasks.push(newTask);
   }
 
-  updateTask(taskId, taskName, taskDescription, taskDueDate, taskPriority) {
+  updateTask(taskId, taskName, projectId, taskDescription, taskDueDate, taskPriority) {
     const taskResult = Task.#tasks.find(task => task.id === taskId);
-    console.log(taskResult);
     if(taskResult){
+      taskResult.projectId = projectId,
       taskResult.name = taskName;
       taskResult.description = taskDescription;
       taskResult.dueDate = taskDueDate;
@@ -68,5 +69,14 @@ export default class Task {
     });
 
     return nextSevenDayTasks;
+  }
+
+  getTaskByProjectId(projectId) {
+    const taskResult = Task.#tasks.filter((task) => task.projectId === projectId);
+    if(taskResult){
+      return taskResult;
+    }
+
+    return false
   }
 }
