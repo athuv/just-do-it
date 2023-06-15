@@ -1,6 +1,8 @@
+import '../css/normalize.css';
 import '../css/style.css';
 import favSrc from '../images/favicon.ico';
-import project from './project';
+import Project from './project';
+import Task from './task';
 
 const Addfavivon = () =>{
   const title = document.querySelector('title');
@@ -12,9 +14,9 @@ const Addfavivon = () =>{
 
 function component() {
   Addfavivon();
-  const main = document.querySelector('main');
-  
-  return main;
-}
+  const bodyElement = document.body;
 
-document.body.appendChild(component());
+
+  return bodyElement;
+}
+ document.documentElement.appendChild(component());
