@@ -11,7 +11,7 @@ export default class project {
     project.#instance = this;
   }
 
-  generatePrimaryKey() {
+  #generatePrimaryKey() {
     const now = new Date().getTime();
     const randomNumber = Math.floor(Math.random() * 1000000);
     return `${now}${randomNumber}`;
@@ -21,9 +21,9 @@ export default class project {
     return project.#projects;
   }
 
-  setProject(projectName) {
+  createProject(projectName) {
     const newProject = {
-      id: this.generatePrimaryKey(),
+      id: this.#generatePrimaryKey(),
       name: projectName,
       createdAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
     };
