@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { generatePrimaryKey } from './utils';
 
 export default class Project {
   static #instance;
@@ -11,19 +12,13 @@ export default class Project {
     Project.#instance = this;
   }
 
-  #generatePrimaryKey() {
-    const now = new Date().getTime();
-    const randomNumber = Math.floor(Math.random() * 1000000);
-    return `${now}${randomNumber}`;
-  }
-
   getProject() {
     return Project.#projects;
   }
 
   createProject(projectName) {
     const newProject = {
-      id: this.#generatePrimaryKey(),
+      id: parseInt(generatePrimaryKey()),
       name: projectName,
       createdAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
     };
