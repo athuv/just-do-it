@@ -1,8 +1,7 @@
 import '../css/normalize.css';
 import '../css/style.css';
 import favSrc from '../images/favicon.ico';
-import Project from './project';
-import Task from './task';
+import headerView from './header-view';
 
 const Addfavivon = () =>{
   const title = document.querySelector('title');
@@ -14,6 +13,7 @@ const Addfavivon = () =>{
 
 function component() {
   Addfavivon();
+  headerView();
   const bodyElement = document.body;
 
 
