@@ -20,9 +20,6 @@ header {
   align-items: center;
 }
 
-.header-left-section {
-}
-
 .header-left-section__hamburger-menu {
   margin-left: 1rem;
 }
@@ -40,10 +37,6 @@ header {
 .header-left-section__hamburger-menu:hover {
   background: var(--nav-bar-hover-fill);
   border-radius: 0.4rem;
-}
-
-.header-right-section {
-  background: green;
 }
 
 main {
