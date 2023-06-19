@@ -3,6 +3,8 @@
   --bleached-silk: #F2F2F2;
   --white: #FFFFFF;
   --nav-bar-hover-fill: hsla(0,0%,100%,0.2);
+  --sidebar-hover-fill: #d3d3d3;
+  --grey: grey;
 }
 
 body {
@@ -10,6 +12,7 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 50px 3fr 50px;
+  font-family: 'Segoe UI';
 }
 
 header {
@@ -48,8 +51,96 @@ main {
 
 main aside:first-child {
   background: var(--bleached-silk);
-  width: 12rem;
-  padding: 20px;
+  width: 12.2rem;
+  padding: 1rem;
+}
+
+.sidebar-buttons {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.sidebar-buttons__button {
+  line-height: 0;
+}
+
+.sidebar-buttons__button:hover {
+  cursor: pointer;
+  background-color: var(--sidebar-hover-fill);
+  border-radius: 0.5rem;
+}
+
+.sidebar-buttons__button__contents {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding-left: 0.5rem;
+}
+
+.sidebar-project-heading {
+  color: grey;
+  font-weight: 600;
+  background-color: var(--sidebar-hover-fill);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sidebar-project-heading__text {
+  margin: 0;
+}
+
+.sidebar-project-heading__button {
+  border: none;
+  background: none;
+  display: none;
+  color: var(--grey);
+}
+
+.sidebar-project-heading:hover .sidebar-project-heading__button {
+  display: inline-block;
+}
+
+.sidebar-project-heading__button:hover {
+  cursor: pointer;
+  color: black;
+}
+
+.sidebar-project-buttons{
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.sidebar-project-buttons__button{
+  line-height: 0;
+}
+
+.sidebar-project-buttons__button:hover {
+  cursor: pointer;
+  background-color: var(--sidebar-hover-fill);
+  border-radius: 0.5rem;
+}
+
+.button__edit-delete-buttons {
+  padding-left: 1.3rem;
+}
+
+.button__edit-delete-buttons__edit,
+.button__edit-delete-buttons__delete {
+  background: none;
+  border: none;
+  color: var(--grey);
+}
+
+.button__edit-delete-buttons__edit:hover,
+.button__edit-delete-buttons__delete:hover {
+  color: black;
+  cursor: pointer;
 }
 
 main aside:last-child {

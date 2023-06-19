@@ -2,6 +2,7 @@ import '../css/normalize.css';
 import '../css/style.css';
 import favSrc from '../images/favicon.ico';
 import headerView from './header-view';
+import sidebarView from './sidebar-view';
 
 const Addfavivon = () =>{
   const title = document.querySelector('title');
@@ -12,10 +13,11 @@ const Addfavivon = () =>{
 }
 
 function component() {
+  const bodyElement = document.body;
+  
   Addfavivon();
   headerView();
-  const bodyElement = document.body;
-
+  sidebarView();
 
   return bodyElement;
 }
