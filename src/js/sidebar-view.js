@@ -1,101 +1,116 @@
-import { todayIcon, comingWeekIcon, dotIcon, addIcon, toggleIcon, editIcon, deleteIcon } from './icons';
-import Project from './project';
+import * as elementManager from './utils-view';
+import * as icons from './icons';
 
-function sidebarTodayComingWeek(asideElement) {
-  const ul = document.createElement('ul');
-  ul.classList.add('sidebar-buttons');
+
+const iconMapping = {
+  'Today': icons.todayIcon,
+  'Coming Week': icons.comingWeekIcon,
+  'dotIcon': icons.dotIcon,
+  'addIcon': icons.addIcon,
+  'toggleIcon': icons.toggleIcon,
+  'editIcon': icons.editIcon,
+  'deleteIcon': icons.deleteIcon,
+};
+
+function createPeriodButtons(name) {
+  const liClass = `sidebar-period-buttons__${name.toLowerCase().replace(/\s/g,'-')}`;
+  const li = elementManager.createLiElement(['sidebar-period-buttons__button', liClass]);
+
+  const iconFunction = iconMapping[name];
+  const span = elementManager.createSpanElement(
+    ['sidebar-period-buttons__button__contents', liClass],
+    {},
+    {innerHTML:`${iconFunction()} <p>${name}</p>`}
+  );
+  elementManager.appendElements(li, span);
+  return li;
+}
+
+function sidebarPeriodTasks() {
+  const ul = elementManager.createUlElement(['sidebar-period-buttons']);
   const liNames = ['Today', 'Coming Week'];
-
   liNames.forEach((name) => {
-    const li = document.createElement('li');
-    const liClass = name.toLowerCase().replace(/\s/g,'-');
-    li.classList.add('sidebar-buttons__button', `sidebar-buttons__${liClass}`);
-    const spanElement = document.createElement('span');
-    spanElement.classList.add('sidebar-buttons__button__contents');
-    if(name === 'Today'){
-      spanElement.innerHTML = `${todayIcon()} <p>${name}</p> `;
-    }
-
-    if(name === 'Coming Week'){
-      
-      spanElement.innerHTML = `${comingWeekIcon()} <p>${name}</p> `;
-    }
-    li.appendChild(spanElement);
+    const li = createPeriodButtons(name);
     ul.appendChild(li);
   });
-  asideElement.appendChild(ul);
+  return ul;
 }
 
-function projects(asideElement, project) {
-  const divElement = document.createElement('div');
-  divElement.classList.add('sidebar-project-heading');
+function createProjectButton(project) {
+  const li = elementManager.createLiElement(['sidebar-project-buttons__button']);
+  const iconDot = iconMapping.dotIcon;
+  const span = elementManager.createSpanElement(
+    ['sidebar-period-buttons__button__contents'],
+    {},
+    {innerHTML: `${iconDot()} <p>${project.name}</p>`}
+  );
+  const divButtonWrapper = elementManager.createDivElement(['button__edit-delete-buttons']); 
+  elementManager.appendElements(span, divButtonWrapper);
 
-  const pElement = document.createElement('p');
-  pElement.textContent = 'Projects';
-  pElement.classList.add('sidebar-project-heading__text');
+  const iconEdit = iconMapping.editIcon;
+  const buttonEdit = elementManager.createButtonElement(
+    ['button__edit-delete-buttons__edit'],
+    {'data-id': project.id},
+    {innerHTML: iconEdit()}
+  )
 
-  const divHeaderButton = document.createElement('div');
-  divHeaderButton.classList.add('sidebar-project-heading__button-group');
+  const iconDelete = iconMapping.deleteIcon;
+  const buttonDelete = elementManager.createButtonElement(
+    ['button__edit-delete-buttons__delete'],
+    {'data-id': project.id},
+    {innerHTML: iconDelete() }
+  );
+  elementManager.appendElements(divButtonWrapper, buttonEdit, buttonDelete);
+  elementManager.appendElements(li, span);
+  return li;
+}
 
-  const buttonAdd = document.createElement('button');
-  buttonAdd.classList.add('sidebar-project-heading__button');
-  buttonAdd.innerHTML = addIcon();
+function projectHeaderView() {
+  const div = elementManager.createDivElement(['sidebar-project-heading']);
+  const p = elementManager.createPElement(
+    ['sidebar-project-heading__text'],
+    {},
+    {innerText: 'Projects'}
+  );
 
-  const buttonToggle= document.createElement('button');
-  buttonToggle.classList.add('sidebar-project-heading__button');
-  buttonToggle.innerHTML = toggleIcon();
+  const divHeaderButtonWrapper = elementManager.createDivElement(['sidebar-project-heading__button-group']);
+  const iconAdd = iconMapping.addIcon;
+  const buttonHeaderAdd = elementManager.createButtonElement(
+    ['sidebar-project-heading__button'],
+    {},
+    {innerText: iconAdd()}
+    );
 
+  const iconToggle = iconMapping.toggleIcon;
+  const buttonToggle = elementManager.createButtonElement(
+    ['sidebar-project-heading__button'],
+    {},
+    {innerText: iconToggle()}
+  );
 
-  divElement.appendChild(pElement);
-  divElement.appendChild(divHeaderButton);
-  divHeaderButton.appendChild(buttonAdd);
-  divHeaderButton.appendChild(buttonToggle);
+  elementManager.appendElements(div, p, divHeaderButtonWrapper);
+  elementManager.appendElements(divHeaderButtonWrapper, buttonHeaderAdd, buttonToggle);
+  return div;
+}
 
-  const ulElement = document.createElement('ul');
-  ulElement.classList.add('sidebar-project-buttons');
+function projectView(project) {
+  const div = projectHeaderView();
 
+  const ul = elementManager.createUlElement(['sidebar-project-buttons']);
   const projectData = project.getProject();
-    
+
   projectData.forEach((project) =>{
-    const liElement = document.createElement('li');
-    liElement.classList.add('sidebar-project-buttons__button');
-   
-
-    const spanElement = document.createElement('span');
-    spanElement.classList.add('sidebar-buttons__button__contents');
-
-    spanElement.innerHTML = `${dotIcon()} <p>${project.name}</p> `;
-
-    const divEditDeleteButton = document.createElement('div');
-    divEditDeleteButton.classList.add('button__edit-delete-buttons');
-    spanElement.appendChild(divEditDeleteButton);
-
-    const buttonEdit = document.createElement('button');
-    buttonEdit.classList.add('button__edit-delete-buttons__edit');
-    buttonEdit.innerHTML = editIcon();
-    buttonEdit.setAttribute('data-id', project.id);
-    divEditDeleteButton.appendChild(buttonEdit);
-
-    const buttonDelete = document.createElement('button');
-    buttonDelete.classList.add('button__edit-delete-buttons__delete');
-    buttonDelete.innerHTML = deleteIcon();
-    buttonDelete.setAttribute('data-id', project.id);
-    divEditDeleteButton.appendChild(buttonDelete);
-    
-    liElement.appendChild(spanElement);    
-    ulElement.appendChild(liElement);
+    const li = createProjectButton(project);
+    elementManager.appendElements(ul, li);
   }); 
 
-  asideElement.appendChild(divElement);
-  asideElement.appendChild(ulElement);
+  return {div, ul}
 }
 
-export default function sidebarView() { 
-  const project = new Project();
+export default function sidebarView(project) { 
+  
   const mainElement = document.querySelector('main');
   const asideElement = mainElement.querySelector(':first-child');
-  
-  sidebarTodayComingWeek(asideElement);
-  projects(asideElement, project);
-
+  const {div, ul} = projectView(project);
+  elementManager.appendElements(asideElement, sidebarPeriodTasks(), div, ul);
 }

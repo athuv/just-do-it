@@ -55,28 +55,32 @@ main aside:first-child {
   padding: 1rem;
 }
 
-.sidebar-buttons {
+.sidebar-period-buttons {
   list-style: none;
   display: flex;
   flex-direction: column;
   padding: 0;
 }
 
-.sidebar-buttons__button {
+.sidebar-period-buttons__button {
   line-height: 0;
 }
 
-.sidebar-buttons__button:hover {
+.sidebar-period-buttons__button:hover {
   cursor: pointer;
   background-color: var(--sidebar-hover-fill);
   border-radius: 0.5rem;
 }
 
-.sidebar-buttons__button__contents {
+.sidebar-period-buttons__button__contents {
   display: flex;
   align-items: center;
   gap: 0.2rem;
   padding-left: 0.5rem;
+}
+
+.sidebar-period-buttons__today:focus {
+  color:var(--cute-crab);
 }
 
 .sidebar-project-heading {
