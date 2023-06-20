@@ -1,6 +1,9 @@
 function createElement(tagName, classNames, attributes = {}, content = {}) {
   const element = document.createElement(tagName);
-  element.classList.add(...classNames);
+
+  if(typeof classNames !== 'undefined') {    
+    element.classList.add(...classNames);
+  }
 
   for (const [key, value] of Object.entries(attributes)) {
     element.setAttribute(key, value);
@@ -53,6 +56,10 @@ function createPElement(classNames, attributes = {}, content){
   return createElement('div', classNames, attributes, content);
 }
 
+function createSectionElement(classNames, attributes = {}, content) {
+  return createElement('section', classNames, attributes, content);
+}
+
 export  { 
           createElement,
           createUlElement,
@@ -62,4 +69,5 @@ export  {
           createDivElement,
           appendElements,
           createPElement,
+          createSectionElement,
         }

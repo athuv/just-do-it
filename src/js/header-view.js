@@ -1,33 +1,39 @@
 import { homeIcon, hamburgerMenuIcon } from './icons';
+import * as elementManager from './utils-view';
 
-function createHeaderSection(headerElement, sectionNames) {
+function createHeaderSection() {
+  const div = elementManager.createDivElement();
+  const sectionNames = ['header-left-section', 'header-right-section'];
   sectionNames.forEach((section) => {
-    const sectionElement = document.createElement('section');
-    sectionElement.classList.add(section);
-    headerElement.appendChild(sectionElement);
+    const sectionElement = elementManager.createSectionElement([section]);
+    elementManager.appendElements(div, sectionElement);
   });
+  return div;
 }
 
-function createHamburgerMenu(leftSection) {
-  const divHamburgerMenuBtn = document.createElement('button');
-  divHamburgerMenuBtn.classList.add('header-left-section__hamburger-menu');
-  divHamburgerMenuBtn.innerHTML = hamburgerMenuIcon();
-  leftSection.appendChild(divHamburgerMenuBtn);
+function createHamburgerMenu() {
+  const div = elementManager.createButtonElement(
+    ['header-left-section__hamburger-menu'],
+    {},
+    {innerHTML: hamburgerMenuIcon()}
+  );
+    return div;
 }
 
-function createHomeButton(leftSection) {
-  const divHomeBtn = document.createElement('button');
-  divHomeBtn.classList.add('header-left-section__home-button');
-  divHomeBtn.innerHTML = homeIcon();
-  leftSection.appendChild(divHomeBtn);
+function createHomeButton() {
+  const div = elementManager.createButtonElement(
+    ['header-left-section__home-button'],
+    {},
+    {innerHTML: homeIcon()}
+  );
+  return div;
 }
 
 export default function headerView() {
   const headerElement = document.querySelector('header');
-  createHeaderSection(headerElement, ['header-left-section', 'header-right-section']);
+  elementManager.appendElements(headerElement, createHeaderSection());
 
-  const leftSection = headerElement.querySelector(':first-child');
-  createHamburgerMenu(leftSection);
-  createHomeButton(leftSection);
+  const leftSection = document.querySelector('section:nth-child(1)');
+  elementManager.appendElements(leftSection, createHamburgerMenu(), createHomeButton());
 }
 
