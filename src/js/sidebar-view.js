@@ -78,14 +78,14 @@ function projectHeaderView() {
   const buttonHeaderAdd = elementManager.createButtonElement(
     ['sidebar-project-heading__button'],
     {},
-    {innerText: iconAdd()}
+    {innerHTML: iconAdd()}
     );
 
   const iconToggle = iconMapping.toggleIcon;
   const buttonToggle = elementManager.createButtonElement(
     ['sidebar-project-heading__button'],
     {},
-    {innerText: iconToggle()}
+    {innerHTML: iconToggle()}
   );
 
   elementManager.appendElements(div, p, divHeaderButtonWrapper);
