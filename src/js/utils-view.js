@@ -60,8 +60,11 @@ function createSectionElement(classNames, attributes = {}, content) {
   return createElement('section', classNames, attributes, content);
 }
 
+function createH3Element(classNames, attributes = {}, content) {
+  return createElement('h3', classNames, attributes, content);
+}
+
 export  { 
-          createElement,
           createUlElement,
           createLiElement,
           createSpanElement,
@@ -70,4 +73,5 @@ export  {
           appendElements,
           createPElement,
           createSectionElement,
+          createH3Element,
         }

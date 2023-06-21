@@ -4,6 +4,8 @@ import Project from './project';
 import favSrc from '../images/favicon.ico';
 import headerView from './header-view';
 import sidebarView from './sidebar-view';
+import todayView from './today-view';
+import { task } from './utils';
 
 const Addfavivon = () =>{
   const title = document.querySelector('title');
@@ -19,7 +21,12 @@ function component() {
   Addfavivon();
   headerView();
   sidebarView(project);
+  todayView();
 
+  const tasks = task();
+  window.a = project;
+  window.b = tasks;
   return bodyElement;
 }
  document.documentElement.appendChild(component());
+

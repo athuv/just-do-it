@@ -14,7 +14,11 @@ const iconMapping = {
 
 function createPeriodButtons(name) {
   const liClass = `sidebar-period-buttons__${name.toLowerCase().replace(/\s/g,'-')}`;
-  const li = elementManager.createLiElement(['sidebar-period-buttons__button', liClass]);
+  const liId = `button-${name.toLowerCase().replace(/\s/g,'-')}`;
+  const li = elementManager.createLiElement(
+    ['sidebar-period-buttons__button', liClass],
+    {'id': liId}
+    );
 
   const iconFunction = iconMapping[name];
   const span = elementManager.createSpanElement(

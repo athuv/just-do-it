@@ -13,6 +13,11 @@ export default class Task {
   }
 
   getTask() {
+    const tasks = localStorage.getItem("tasks");
+    if(tasks) {
+      Task.#tasks = JSON.parse(tasks);
+    }
+
     return Task.#tasks;
   }
 
@@ -26,7 +31,9 @@ export default class Task {
       priority: taskPriority,
       createdAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
     };
-    return Task.#tasks.push(newTask);
+    Task.#tasks.push(newTask);
+    localStorage.setItem('tasks', JSON.stringify(Task.#tasks));
+    return true;
   }
 
   updateTask(taskId, taskName, projectId, taskDescription, taskDueDate, taskPriority) {
@@ -38,6 +45,8 @@ export default class Task {
       taskResult.dueDate = taskDueDate;
       taskResult.priority = taskPriority;
       taskResult.createdAt = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
+
+      localStorage.setItem('tasks', JSON.stringify(Task.#tasks));
       return true;
     }else{
       return false;
@@ -48,6 +57,7 @@ export default class Task {
     const tasksArrayindex = Task.#tasks.findIndex(item => item.id === taskId);
     if (tasksArrayindex !== -1) {
       Task.#tasks.splice(tasksArrayindex, 1);
+      localStorage.setItem('tasks', JSON.stringify(Task.#tasks));
       return true;
     }
     
@@ -55,6 +65,11 @@ export default class Task {
   }
 
   todayTasks() {
+    const tasks = localStorage.getItem("tasks");
+    if(tasks) {
+      Task.#tasks = JSON.parse(tasks);
+    }
+    
     const todayTasks = Task.#tasks.filter(item => item.dueDate === format(new Date(), 'yyyy-MM-dd'));
     return todayTasks;
   }

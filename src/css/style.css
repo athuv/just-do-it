@@ -149,6 +149,51 @@ main aside:first-child {
 
 main aside:last-child {
   background: var(--white);
+  padding: 0.5rem;
+}
+
+.today-content {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bleached-silk);
+}
+
+.today-content__header-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 0.3rem;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 1.3rem;
+  padding-left: 8.2rem;
+}
+
+.today-content__tasks-wrapper {
+  padding-left: 8.2rem;
+}
+
+.today-content__tasks-list {
+  list-style-type: none;
+  padding-inline-start: 0;
+}
+
+.today-content__tasks-list li::after {
+  content: "";
+  display: block;
+  border-bottom: 1px solid var(--grey); /* Adjust the line style as desired */
+  margin: 10px 0; /* Adjust the line's vertical spacing */
+  width: 80%; /* Adjust the line's length */
+  
+}
+
+.today-content__header-topic {
+  margin: 0;
+}
+
+.today-content__header-date {
+  align-self: flex-end;
+  font-size: 0.8rem;
+  color: var(--grey);
 }
 
 footer {
