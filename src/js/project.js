@@ -12,12 +12,15 @@ export default class Project {
     Project.#instance = this;
   }
 
-  getProject() {
+  fetchProject() {
     const projects = localStorage.getItem("projects");
     if(projects) {
       Project.#projects = JSON.parse(projects);
     }
+  }
 
+  getProject() {
+    this.fetchProject();
     return Project.#projects;
   }
 
@@ -57,6 +60,7 @@ export default class Project {
   }
 
   getProjectbyId(projectId) {
+    this.fetchProject();
     const projectResult = Project.#projects.find(project => project.id === projectId);
     if(projectResult){
 

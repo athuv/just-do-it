@@ -12,12 +12,15 @@ export default class Task {
     Task.#instance = this;
   }
 
-  getTask() {
+  fetchTask() {
     const tasks = localStorage.getItem("tasks");
     if(tasks) {
       Task.#tasks = JSON.parse(tasks);
     }
+  }
 
+  getTask() {
+    this.fetchTask();
     return Task.#tasks;
   }
 
@@ -65,11 +68,7 @@ export default class Task {
   }
 
   todayTasks() {
-    const tasks = localStorage.getItem("tasks");
-    if(tasks) {
-      Task.#tasks = JSON.parse(tasks);
-    }
-    
+    this.fetchTask();
     const todayTasks = Task.#tasks.filter(item => item.dueDate === format(new Date(), 'yyyy-MM-dd'));
     return todayTasks;
   }
@@ -78,12 +77,25 @@ export default class Task {
     const today = new Date();
     const nextWeek = addDays(today, 7);
 
+    this.fetchTask();
+
     const nextSevenDayTasks = Task.#tasks.filter(task => {
       const taskDueDate = new Date(task.dueDate);
       return isWithinInterval(taskDueDate, { start: today, end: nextWeek });
     });
 
     return nextSevenDayTasks;
+  }
+
+  getTaskById(taskId) {
+    this.fetchTask();
+    const taskResult = Task.#tasks.find(task => task.id === taskId);
+    if(taskResult){
+
+      return taskResult;
+    }
+
+    return false;
   }
 
   getTaskByProjectId(projectId) {

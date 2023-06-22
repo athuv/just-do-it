@@ -155,7 +155,7 @@ main aside:last-child {
 .today-content {
   width: 100%;
   height: 100%;
-  background-color: var(--bleached-silk);
+  background-color: #f2f2f252;
 }
 
 .today-content__header-wrapper {
@@ -170,6 +170,7 @@ main aside:last-child {
 
 .today-content__tasks-wrapper {
   padding-left: 8.2rem;
+  padding-right: 2rem;
 }
 
 .today-content__tasks-list {
@@ -182,7 +183,7 @@ main aside:last-child {
   display: block;
   border-bottom: 1px solid var(--grey); /* Adjust the line style as desired */
   margin: 10px 0; /* Adjust the line's vertical spacing */
-  width: 80%; /* Adjust the line's length */
+  width: 100%; /* Adjust the line's length */
   
 }
 
@@ -194,6 +195,120 @@ main aside:last-child {
   align-self: flex-end;
   font-size: 0.8rem;
   color: var(--grey);
+}
+
+.today-content__tasks-item__content {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  grid-template-columns: 2rem 2rem 1fr 2rem;
+  align-items: center;
+}
+
+.today-content__tasks-item__content-drag-button {
+  line-height: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.today-content__tasks-item__content-check-button-wrapper {
+  line-height: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.today-content__tasks-item__content-check-button {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--grey);
+  border-radius: 50%;
+  position: relative;
+  transition: background-color 0.50s ease-in-out;
+  cursor: pointer;
+  color: var(--grey);
+}
+
+.today-content__tasks-item__content-check-button svg{
+  position: absolute;
+  display: inline-block;
+  border: 0 solid transparent;
+  top: -0.3em;
+  left: -0.3em;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.today-content__tasks-item__content-check-button:hover svg {
+  opacity: 1; 
+}
+
+.today-content__tasks-item__content-check-button:hover {
+  background-color: var(--sidebar-hover-fill);
+}
+
+.today-content__tasks-item__content-name {
+  
+}
+
+.today-content__tasks-item__content-edit-button {
+
+}
+
+.today-content__tasks-item__content-edit-button button {
+  background: none;
+  padding: 0;
+  border: none;
+  justify-self: end;
+  opacity: 0;
+  cursor: pointer;
+  color: var(--grey);
+  padding: 0.2rem;
+}
+
+.today-content__tasks-item__content-name:hover + .today-content__tasks-item__content-edit-button button {
+  opacity: 1;
+}
+
+.today-content__tasks-item__content-edit-button button:hover {
+  color: black;
+  opacity: 1;
+  background-color: var(--sidebar-hover-fill);
+  border-radius: 25%;
+}
+
+.today-content__tasks-item__content-description {
+  grid-column: 3 / span 1;
+  white-space: nowrap;        /* Prevents line breaks */
+  overflow: hidden;           /* Hides any overflowed content */
+  text-overflow: ellipsis; 
+  font-size: 0.7rem;
+  cursor: pointer;
+  color: var(--grey);
+}
+
+.today-content__tasks-item__content-project-title {
+  grid-column: 3 / span 2;
+  justify-self: end;
+  font-size: 0.8rem;
+  color: var(--grey);
+}
+
+
+.task-content-popup__content {
+  background-color: white;
+  padding: 20px;
+}
+
+#task-edit-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
 }
 
 footer {

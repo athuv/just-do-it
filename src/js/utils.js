@@ -1,4 +1,9 @@
-import Task from './task'
+import Task from './task';
+import Project from './project';
+
+const projectInstance = new Project();
+const taskInstance = new Task();
+
 
 function generatePrimaryKey() {
   const now = new Date().getTime();
@@ -7,10 +12,15 @@ function generatePrimaryKey() {
 }
 
 function task() {
-  return new Task();
+  return taskInstance; // Return the shared instance
+}
+
+function project() {
+  return projectInstance;
 }
 
 export {
   generatePrimaryKey,
-  task,
+  project,
+  task,  
 }

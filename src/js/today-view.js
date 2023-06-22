@@ -1,7 +1,15 @@
 
-import { task } from './utils';
+import { task, project } from './utils';
 import { format } from 'date-fns';
 import * as elementManager from './utils-view';
+import * as icons from './icons';
+import { editPopup } from './edit-popup-view';
+
+const iconMapping = {
+  'dragIcon': icons.dragIcon,
+  'editIcon': icons.editIcon,
+  'checkIcon': icons.checkIcon,
+};
 
 function renderSection() {
   return elementManager.createSectionElement(['today-content']);
@@ -28,6 +36,72 @@ function renderTodayView() {
   return divHeader;
 }
 
+function renderTodayTaskContent(task) {
+  const projectInstance = project();
+  const projectName = projectInstance.getProjectbyId(task.projectId).name;
+  const iconDrag = iconMapping.dragIcon;
+  const iconCheck = iconMapping.checkIcon;
+
+  const divParent = elementManager.createDivElement(['today-content__tasks-item__content']);
+
+  
+  const divDragButton = elementManager.createDivElement(
+    ['today-content__tasks-item__content-drag-button'],
+    {},
+    {innerHTML: iconDrag()}
+  );
+  const divRadioButton = elementManager.createDivElement(
+    ['today-content__tasks-item__content-check-button-wrapper']
+  );
+  const spanCheckButton = elementManager.createSpanElement(
+    ['today-content__tasks-item__content-check-button'],
+    {},
+    {innerHTML: iconCheck()}
+    );
+  elementManager.appendElements(divRadioButton, spanCheckButton);
+
+  const divName = elementManager.createDivElement(
+    ['today-content__tasks-item__content-name'],
+    {},
+    {innerText: task.name}
+  );
+  const divEditButton = elementManager.createDivElement(['today-content__tasks-item__content-edit-button']);
+
+  const iconEdit = iconMapping.editIcon;
+  const buttonEdit = elementManager.createButtonElement(['content-edit-button__edit-button'],
+    {
+      'id': 'task-content-edit-button',
+      'data-id': task.id,
+    },
+    {innerHTML:iconEdit()}
+  );
+  elementManager.appendElements(divEditButton, buttonEdit);
+
+  const divDescription = elementManager.createDivElement(
+    ['today-content__tasks-item__content-description'],
+    {},
+    {innerText: task.description}
+    );
+
+  const divProjectTitle = elementManager.createDivElement(
+    ['today-content__tasks-item__content-project-title'],
+    {},
+    {innerText: projectName}
+  );
+
+  elementManager.appendElements(
+    divParent,
+    divDragButton,
+    divRadioButton,
+    divName,
+    divEditButton,
+    divDescription,
+    divProjectTitle,
+  );
+
+  return divParent;
+}
+
 function renderTodayTasks() {
   const taskInstance = task();
   const todayTasks = taskInstance.todayTasks();
@@ -36,10 +110,9 @@ function renderTodayTasks() {
   const ul = elementManager.createUlElement(['today-content__tasks-list']);
   todayTasks.forEach((task) => {
     const li = elementManager.createLiElement(
-      ['today-content__tasks-item'],
-      {},
-      {innerText: task.name}
+      ['today-content__tasks-item']
       );
+    elementManager.appendElements(li, renderTodayTaskContent(task));
     elementManager.appendElements(ul, li);
   });
   elementManager.appendElements(divTodayTasks, ul);
@@ -57,7 +130,10 @@ export default function todayView() {
   todayButton.addEventListener('click', () => {
     asideChildSection.textContent = '';
     elementManager.appendElements(asideChildSection, renderTodayView(), renderTodayTasks());
+    editPopup();
   });
+
+
   // console.log(todayButton);
   // const t = task();
   // console.log(t.todayTasks());

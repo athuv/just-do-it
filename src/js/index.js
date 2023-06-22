@@ -1,11 +1,10 @@
 import '../css/normalize.css';
 import '../css/style.css';
-import Project from './project';
 import favSrc from '../images/favicon.ico';
 import headerView from './header-view';
 import sidebarView from './sidebar-view';
 import todayView from './today-view';
-import { task } from './utils';
+import { task, project } from './utils';
 
 const Addfavivon = () =>{
   const title = document.querySelector('title');
@@ -17,14 +16,14 @@ const Addfavivon = () =>{
 
 function component() {
   const bodyElement = document.body;
-  const project = new Project();
+  const projectInstance = project();
   Addfavivon();
   headerView();
-  sidebarView(project);
+  sidebarView(projectInstance);
   todayView();
 
   const tasks = task();
-  window.a = project;
+  window.a = projectInstance;
   window.b = tasks;
   return bodyElement;
 }
