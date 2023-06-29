@@ -57,7 +57,8 @@ export default class Task {
   }
 
   deleteTask(taskId) {
-    const tasksArrayindex = Task.#tasks.findIndex(item => item.id === taskId);
+    this.fetchTask();
+    const tasksArrayindex = Task.#tasks.findIndex(item => item.id === parseInt(taskId));
     if (tasksArrayindex !== -1) {
       Task.#tasks.splice(tasksArrayindex, 1);
       localStorage.setItem('tasks', JSON.stringify(Task.#tasks));
@@ -99,6 +100,7 @@ export default class Task {
   }
 
   getTaskByProjectId(projectId) {
+    this.fetchTask();
     const taskResult = Task.#tasks.filter((task) => task.projectId === projectId);
     if(taskResult){
       return taskResult;

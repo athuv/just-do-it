@@ -9,6 +9,7 @@ const iconMapping = {
   'dragIcon': icons.dragIcon,
   'editIcon': icons.editIcon,
   'checkIcon': icons.checkIcon,
+  'deleteIcon': icons.deleteIcon,
 };
 
 function renderSection() {
@@ -41,9 +42,10 @@ function renderTodayTaskContent(task) {
   const projectName = projectInstance.getProjectbyId(task.projectId).name;
   const iconDrag = iconMapping.dragIcon;
   const iconCheck = iconMapping.checkIcon;
+  const iconEdit = iconMapping.editIcon;
+  const iconDelete = iconMapping.deleteIcon;
 
   const divParent = elementManager.createDivElement(['today-content__tasks-item__content']);
-
   
   const divDragButton = elementManager.createDivElement(
     ['today-content__tasks-item__content-drag-button'],
@@ -55,7 +57,7 @@ function renderTodayTaskContent(task) {
   );
   const spanCheckButton = elementManager.createSpanElement(
     ['today-content__tasks-item__content-check-button'],
-    {},
+    {'data-id': task.id},
     {innerHTML: iconCheck()}
     );
   elementManager.appendElements(divRadioButton, spanCheckButton);
@@ -65,9 +67,9 @@ function renderTodayTaskContent(task) {
     {},
     {innerText: task.name}
   );
-  const divEditButton = elementManager.createDivElement(['today-content__tasks-item__content-edit-button']);
+  const divEditButton = elementManager.createDivElement(['today-content__tasks-item__content-button-wrapper']);
 
-  const iconEdit = iconMapping.editIcon;
+  
   const buttonEdit = elementManager.createButtonElement(['content-edit-button__edit-button'],
     {
       'id': 'task-content-edit-button',
@@ -75,7 +77,17 @@ function renderTodayTaskContent(task) {
     },
     {innerHTML:iconEdit()}
   );
-  elementManager.appendElements(divEditButton, buttonEdit);
+
+  const divDeleteButton = elementManager.createButtonElement(
+    ['content-delete-button__delete-button'],
+    {
+      'id': 'task-content-edit-button',
+      'data-id': task.id,
+    },
+    {innerHTML:iconDelete()}
+    );
+
+  elementManager.appendElements(divEditButton, buttonEdit, divDeleteButton);
 
   const divDescription = elementManager.createDivElement(
     ['today-content__tasks-item__content-description'],
@@ -119,22 +131,82 @@ function renderTodayTasks() {
   return divTodayTasks;
 }
 
-export default function todayView() {
+function renderEditPopupWrapper() {
+  return elementManager.createDivElement(['task-content-popup'], {'id': 'task-edit-popup'});
+}
+
+function buttonCheckClick(){
+  const buttonCheck = document.querySelectorAll('.today-content__tasks-item__content-check-button');
+  const taskInstance = task();
+  const buttonCheckHandler = (event) => {
+    const taskId = event.target.getAttribute('data-id');
+    //taskInstance.deleteTask(taskId);
+    event.target.classList.add('today-content__tasks-item__content-check-button--clicked');
+    const svgElement = event.target.querySelector(':first-child');
+    svgElement.style.opacity = 1;
+    const parentLi = event.target.closest('li');
+    
+    setTimeout(()=>{
+      parentLi.remove();
+    }, 1000)
+  }
+
+  buttonCheck.forEach((button) => {
+    button.addEventListener('click', buttonCheckHandler);    
+  });
+}
+
+function todayEditButtonClick() {
+  const todayContentEditButton = document.querySelectorAll('.content-edit-button__edit-button');
+    todayContentEditButton.forEach(editButton => {
+      editButton.addEventListener('click', () => {
+        const taskId = editButton.getAttribute('data-id');
+        editPopup(taskId);
+        const popup = document.getElementById('task-edit-popup');      
+        popup.style.display = 'flex';
+      });
+    });
+}
+
+function todayDeleteButtonClick() {
+  const buttonDelete = document.querySelectorAll('.content-delete-button__delete-button');
+  const taskInstance = task();
+  const buttonDeleteHandler = (event) => {
+    const taskId = event.currentTarget.getAttribute('data-id');
+    const parentLi = event.target.closest('li');
+    parentLi.classList.add('today-content__tasks-item--clicked');
+    //taskInstance.deleteTask(taskId);
+
+    setTimeout(()=>{
+      parentLi.remove();
+    }, 1000)
+  }
+
+  buttonDelete.forEach((button) => {
+    button.addEventListener('click', buttonDeleteHandler);    
+  });
+}
+
+function todayView() {
   const mainElement = document.querySelector('main');
   const asideElement = mainElement.querySelector('aside:nth-child(2)');
   
-  const asideChildSection = renderSection();
+  asideElement.textContent = '';
+  const asideChildSection = renderSection();  
   elementManager.appendElements(asideElement, asideChildSection);
 
-  const todayButton = document.getElementById('button-today');
-  todayButton.addEventListener('click', () => {
-    asideChildSection.textContent = '';
-    elementManager.appendElements(asideChildSection, renderTodayView(), renderTodayTasks());
-    editPopup();
-  });
+  asideChildSection.textContent = '';
+  elementManager.appendElements(
+    asideChildSection,
+    renderTodayView(),
+    renderTodayTasks(),
+    renderEditPopupWrapper()
+  );
+  buttonCheckClick();
+  todayEditButtonClick(); 
+  todayDeleteButtonClick();
+}
 
-
-  // console.log(todayButton);
-  // const t = task();
-  // console.log(t.todayTasks());
+export {
+  todayView,
 }

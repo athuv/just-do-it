@@ -1,5 +1,6 @@
 import * as elementManager from './utils-view';
 import * as icons from './icons';
+import { todayView } from './today-view';
 
 
 const iconMapping = {
@@ -37,7 +38,16 @@ function sidebarPeriodTasks() {
     const li = createPeriodButtons(name);
     ul.appendChild(li);
   });
+
   return ul;
+}
+
+function TodayButtonClick() {
+  const buttonToday = document.getElementById('button-today');
+  const TodayButtonClickHandler = () => {
+    todayView();
+  }
+  buttonToday.addEventListener('click', TodayButtonClickHandler);
 }
 
 function createProjectButton(project) {
@@ -117,4 +127,6 @@ export default function sidebarView(project) {
   const asideElement = mainElement.querySelector(':first-child');
   const {div, ul} = projectView(project);
   elementManager.appendElements(asideElement, sidebarPeriodTasks(), div, ul);
+
+  TodayButtonClick();
 }

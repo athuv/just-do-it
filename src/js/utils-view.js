@@ -64,6 +64,22 @@ function createH3Element(classNames, attributes = {}, content) {
   return createElement('h3', classNames, attributes, content);
 }
 
+function createInputElement(classNames, attributes = {}, content) {
+  return createElement('input', classNames, attributes, content);
+}
+
+function createSelectElement(classNames, attributes = {}, content) {
+  return createElement('select', classNames, attributes, content);
+}
+
+function createOptionElement(classNames, attributes = {}, content) {
+  return createElement('option', classNames, attributes, content);
+}
+
+function createTextareaElement(classNames, attributes = {}, content) {
+  return createElement('textarea', classNames, attributes, content);
+}
+
 export  { 
           createUlElement,
           createLiElement,
@@ -74,4 +90,8 @@ export  {
           createPElement,
           createSectionElement,
           createH3Element,
+          createInputElement,
+          createSelectElement,
+          createOptionElement,
+          createTextareaElement,
         }

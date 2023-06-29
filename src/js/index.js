@@ -3,7 +3,6 @@ import '../css/style.css';
 import favSrc from '../images/favicon.ico';
 import headerView from './header-view';
 import sidebarView from './sidebar-view';
-import todayView from './today-view';
 import { task, project } from './utils';
 
 const Addfavivon = () =>{
@@ -20,7 +19,6 @@ function component() {
   Addfavivon();
   headerView();
   sidebarView(projectInstance);
-  todayView();
 
   const tasks = task();
   window.a = projectInstance;
